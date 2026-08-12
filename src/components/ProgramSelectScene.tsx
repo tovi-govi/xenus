@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { soundFx } from '../utils/sound';
 import { SelectionTransition } from './SelectionTransition';
 import { XenusCharacter } from './XenusCharacter';
 import { 
   Brain, Terminal, Cloud, Shield, CircuitBoard, TrendingUp, FlaskConical, Stethoscope,
-  ArrowLeft, ArrowRight, CheckCircle, Flame 
+  ArrowLeft, ArrowRight, CheckCircle, Flame, ChevronLeft, ChevronRight 
 } from 'lucide-react';
 
 interface CourseCategory {
@@ -28,6 +28,9 @@ export const ProgramSelectScene: React.FC<ProgramSelectSceneProps> = ({ onSelect
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [isWiping, setIsWiping] = useState(false);
   const [isLocked, setIsLocked] = useState(false);
+
+  // Touch Swipe Gesture State
+  const touchStartX = useRef<number | null>(null);
 
   const categories: CourseCategory[] = [
     {
@@ -122,6 +125,29 @@ export const ProgramSelectScene: React.FC<ProgramSelectSceneProps> = ({ onSelect
 
   const activeCategory = categories[selectedIndex];
 
+  // Touch Pointer Gesture Handlers
+  const handlePointerDown = (e: React.PointerEvent) => {
+    touchStartX.current = e.clientX;
+  };
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    if (touchStartX.current === null) return;
+    const deltaX = e.clientX - touchStartX.current;
+    touchStartX.current = null;
+
+    if (Math.abs(deltaX) > 40) {
+      if (deltaX < 0) {
+        // Swipe left -> Next track
+        soundFx.playHover();
+        setSelectedIndex((prev) => (prev < categories.length - 1 ? prev + 1 : 0));
+      } else {
+        // Swipe right -> Previous track
+        soundFx.playHover();
+        setSelectedIndex((prev) => (prev > 0 ? prev - 1 : categories.length - 1));
+      }
+    }
+  };
+
   // Keyboard Navigation (Left / Right / Enter / Esc)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -164,65 +190,91 @@ export const ProgramSelectScene: React.FC<ProgramSelectSceneProps> = ({ onSelect
         onSelectProgram(activeCategory.id);
       }}
     >
-      <div className="relative min-h-[90vh] flex flex-col justify-between py-10 px-4 sm:px-6 lg:px-8 bg-[#08080A] text-white overflow-hidden select-none">
+      <div 
+        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
+        className="relative min-h-[90dvh] flex flex-col justify-between py-6 sm:py-10 px-4 sm:px-6 lg:px-8 bg-[#08080A] text-white overflow-hidden select-none touch-pan-y"
+      >
         {/* Background Textures */}
         <div className="absolute inset-0 bg-halftone opacity-25 pointer-events-none" />
         <div className="absolute inset-0 bg-grid-lines opacity-15 pointer-events-none" />
 
         {/* Top Header HUD */}
-        <div className="relative z-20 max-w-7xl mx-auto w-full flex items-center justify-between gap-4 border-b border-white/15 pb-4">
+        <div className="relative z-20 max-w-7xl mx-auto w-full flex items-center justify-between gap-4 border-b border-white/15 pb-3 pt-safe">
           <button
             onClick={() => {
               soundFx.playClick();
               onBack();
             }}
             data-cursor="BACK"
-            className="bg-black text-white border-2 border-white/40 hover:border-[#E60012] hover:text-[#E60012] font-bebas text-xl px-5 py-1.5 uppercase font-bold tracking-wider skew-x-[-8deg] flex items-center gap-2 transition-all"
+            className="bg-black text-white border-2 border-white/40 hover:border-[#E60012] hover:text-[#E60012] font-bebas text-lg sm:text-xl px-4 py-1.5 min-h-[44px] uppercase font-bold tracking-wider skew-x-[-8deg] flex items-center gap-2 transition-all"
           >
             <ArrowLeft className="w-5 h-5" />
-            <span className="skew-x-[8deg]">← MAIN MENU (ESC)</span>
+            <span className="skew-x-[8deg]">← MAIN MENU</span>
           </button>
 
-          <div className="font-space text-xs text-[#00FF88] font-bold uppercase tracking-widest">
-            CHARACTER SELECT // TRACK {activeCategory.number} OF 08
+          <div className="font-space text-[11px] sm:text-xs text-[#00FF88] font-bold uppercase tracking-widest">
+            SWIPE / ARROWS // {activeCategory.number} OF 08
           </div>
         </div>
 
-        {/* Center Screen: Character Select Stage (Eyes of Heaven Layout) */}
-        <div className="relative z-10 max-w-7xl mx-auto w-full my-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center py-6">
+        {/* Center Stage: Dynamic Track Character Avatar & Details */}
+        <div className="relative z-10 max-w-7xl mx-auto w-full my-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center py-4 sm:py-6">
           
-          {/* Left Column: Dynamic Track Character Avatar */}
-          <div className="lg:col-span-5 flex justify-center">
+          {/* Avatar Section with Touch Navigation Arrows */}
+          <div className="lg:col-span-5 flex items-center justify-center relative">
+            <button
+              onClick={() => {
+                soundFx.playHover();
+                setSelectedIndex((prev) => (prev > 0 ? prev - 1 : categories.length - 1));
+              }}
+              className="lg:hidden absolute left-0 z-30 p-3 bg-black/80 text-white border border-white/30 rounded-full min-w-[44px] min-h-[44px] flex items-center justify-center"
+              aria-label="Previous Track"
+            >
+              <ChevronLeft className="w-6 h-6 text-[#00E5FF]" />
+            </button>
+
             <XenusCharacter trackId={activeCategory.id} size="hero" />
+
+            <button
+              onClick={() => {
+                soundFx.playHover();
+                setSelectedIndex((prev) => (prev < categories.length - 1 ? prev + 1 : 0));
+              }}
+              className="lg:hidden absolute right-0 z-30 p-3 bg-black/80 text-white border border-white/30 rounded-full min-w-[44px] min-h-[44px] flex items-center justify-center"
+              aria-label="Next Track"
+            >
+              <ChevronRight className="w-6 h-6 text-[#00E5FF]" />
+            </button>
           </div>
 
-          {/* Right Column: Active Character Class Details */}
-          <div className="lg:col-span-7 space-y-6 text-left">
+          {/* Right Column: Track Details */}
+          <div className="lg:col-span-7 space-y-4 sm:space-y-6 text-left">
             <div className="flex items-center gap-3">
-              <span className="bg-[#E60012] text-black font-bebas text-3xl px-4 py-0.5 font-black skew-x-[-10deg]">
+              <span className="bg-[#E60012] text-black font-bebas text-2xl sm:text-3xl px-3 py-0.5 font-black skew-x-[-10deg]">
                 SLOT {activeCategory.number}
               </span>
-              <span className="font-space text-xs text-[#00FF88] tracking-widest font-bold uppercase border border-[#00FF88]/40 px-3 py-1">
+              <span className="font-space text-[10px] sm:text-xs text-[#00FF88] tracking-widest font-bold uppercase border border-[#00FF88]/40 px-2.5 py-1">
                 {activeCategory.badge}
               </span>
             </div>
 
             <div>
-              <h2 className="font-bebas text-5xl sm:text-7xl font-black text-white tracking-wider uppercase leading-none">
+              <h2 className="font-bebas text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-wider uppercase leading-none">
                 {activeCategory.title}
               </h2>
-              <p className="font-space text-xs text-[#00E5FF] tracking-wider uppercase font-semibold mt-1">
+              <p className="font-space text-[11px] sm:text-xs text-[#00E5FF] tracking-wider uppercase font-semibold mt-1">
                 {activeCategory.subtitle}
               </p>
             </div>
 
-            <p className="font-sans text-sm sm:text-base text-gray-300 max-w-xl">
+            <p className="font-sans text-xs sm:text-base text-gray-300 max-w-xl line-clamp-3">
               {activeCategory.description}
             </p>
 
-            {/* Core Competency Badges */}
+            {/* Core Competencies Grid */}
             <div className="space-y-2 max-w-xl">
-              <div className="font-space text-xs text-gray-400 tracking-widest uppercase font-bold">
+              <div className="font-space text-[10px] sm:text-xs text-gray-400 tracking-widest uppercase font-bold">
                 CLASS COMPETENCIES COVERED:
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -235,13 +287,13 @@ export const ProgramSelectScene: React.FC<ProgramSelectSceneProps> = ({ onSelect
               </div>
             </div>
 
-            {/* Confirmation CTA Button */}
+            {/* Confirmation CTA Button (Touch Target 52px) */}
             <div className="pt-2">
               <button
                 onClick={handleConfirmSelection}
                 onMouseEnter={() => soundFx.playHover()}
                 data-cursor="CONFIRM"
-                className="bg-[#E60012] text-black font-bebas text-3xl px-10 py-3.5 font-black uppercase tracking-wider hover:bg-white transition-colors skew-x-[-10deg] shadow-[6px_6px_0px_#FFFFFF]"
+                className="w-full sm:w-auto bg-[#E60012] text-black font-bebas text-2xl sm:text-3xl px-8 sm:px-10 py-3.5 min-h-[52px] font-black uppercase tracking-wider hover:bg-white transition-colors skew-x-[-10deg] shadow-[6px_6px_0px_#FFFFFF] flex items-center justify-center"
               >
                 <span className="skew-x-[10deg] inline-flex items-center gap-2">
                   CONFIRM & ENTER PATH <ArrowRight className="w-6 h-6" />
@@ -253,14 +305,14 @@ export const ProgramSelectScene: React.FC<ProgramSelectSceneProps> = ({ onSelect
 
         </div>
 
-        {/* Bottom Horizontal Character Selection Roster Bar */}
-        <div className="relative z-20 max-w-7xl mx-auto w-full pt-4 border-t border-white/15 space-y-3">
-          <div className="flex items-center justify-between text-xs font-space text-gray-400 px-1">
-            <span>CHARACTER ROSTER SELECTION</span>
-            <span className="text-[#00FF88]">← → ARROWS TO SWITCH CLASS</span>
+        {/* Bottom Horizontal Roster Bar */}
+        <div className="relative z-20 max-w-7xl mx-auto w-full pt-3 border-t border-white/15 space-y-2 pb-safe">
+          <div className="flex items-center justify-between text-[11px] font-space text-gray-400 px-1">
+            <span>CHARACTER ROSTER</span>
+            <span className="text-[#00FF88]">SWIPE OR TAP TO SWITCH</span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5">
+          <div className="flex sm:grid sm:grid-cols-4 lg:grid-cols-8 gap-2 overflow-x-auto pb-2 scrollbar-none">
             {categories.map((cat, idx) => {
               const isSelected = selectedIndex === idx;
 
@@ -271,19 +323,18 @@ export const ProgramSelectScene: React.FC<ProgramSelectSceneProps> = ({ onSelect
                     soundFx.playSelect();
                     setSelectedIndex(idx);
                   }}
-                  onMouseEnter={() => soundFx.playHover()}
-                  className={`p-2.5 border transition-all text-left flex flex-col justify-between h-24 skew-x-[-6deg] clip-card ${
+                  className={`p-2.5 border transition-all text-left flex flex-col justify-between min-w-[120px] sm:min-w-0 h-20 sm:h-24 skew-x-[-6deg] clip-card flex-shrink-0 ${
                     isSelected
-                      ? 'bg-[#E60012] border-[#E60012] text-black shadow-[4px_4px_0px_#FFFFFF] translate-y-[-4px] font-bold z-20'
+                      ? 'bg-[#E60012] border-[#E60012] text-black shadow-[4px_4px_0px_#FFFFFF] font-bold z-20'
                       : 'bg-black/90 border-white/15 text-white hover:border-[#00E5FF]'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-bebas text-xl font-black">{cat.number}</span>
+                    <span className="font-bebas text-lg sm:text-xl font-black">{cat.number}</span>
                     {isSelected && <Flame className="w-3.5 h-3.5 fill-black" />}
                   </div>
 
-                  <div className="font-bebas text-xs tracking-wider uppercase truncate">
+                  <div className="font-bebas text-[11px] sm:text-xs tracking-wider uppercase truncate">
                     {cat.title}
                   </div>
                 </button>

@@ -99,9 +99,9 @@ export const MainTitleScene: React.FC<MainTitleSceneProps> = ({ onNavigate, onOp
               SYSTEM READY // CHOOSE ENTRY OPTION
             </div>
 
-            <h2 className="font-bebas text-6xl sm:text-8xl font-black text-white tracking-wider uppercase leading-none">
+            <h2 className="font-bebas text-5xl sm:text-7xl lg:text-8xl font-black text-white tracking-wider uppercase leading-none">
               START YOUR <br />
-              <span className="text-[#E60012] drop-shadow-[6px_6px_0px_#FFFFFF]">JOURNEY</span>
+              <span className="text-[#E60012] drop-shadow-[4px_4px_0px_#FFFFFF]">JOURNEY</span>
             </h2>
           </div>
 

@@ -144,29 +144,29 @@ export const ProgramWorldScene: React.FC<ProgramWorldSceneProps> = ({ programId,
   const program = programDetails[programId] || programDetails['01'];
 
   return (
-    <div className="relative min-h-[90vh] flex flex-col justify-between py-10 px-4 sm:px-6 lg:px-8 bg-[#08080A] text-white overflow-hidden select-none">
+    <div className="relative min-h-[90dvh] flex flex-col justify-between py-6 sm:py-10 px-4 sm:px-6 lg:px-8 bg-[#08080A] text-white overflow-hidden select-none pb-safe">
       <div className="absolute inset-0 bg-halftone opacity-25 pointer-events-none" />
 
       {/* Top Navigation HUD */}
-      <div className="relative z-20 max-w-7xl mx-auto w-full flex flex-wrap items-center justify-between gap-4 border-b border-white/15 pb-4">
+      <div className="relative z-20 max-w-7xl mx-auto w-full flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border-b border-white/15 pb-4 pt-safe">
         <button
           onClick={() => {
             soundFx.playClick();
             onBack();
           }}
           data-cursor="BACK"
-          className="bg-black text-white border-2 border-white/40 hover:border-[#E60012] hover:text-[#E60012] font-bebas text-xl px-5 py-1.5 uppercase font-bold tracking-wider skew-x-[-8deg] flex items-center gap-2 transition-all"
+          className="bg-black text-white border-2 border-white/40 hover:border-[#E60012] hover:text-[#E60012] font-bebas text-lg sm:text-xl px-4 py-2 min-h-[44px] uppercase font-bold tracking-wider skew-x-[-8deg] flex items-center justify-center gap-2 transition-all"
         >
           <ArrowLeft className="w-5 h-5" />
-          <span className="skew-x-[8deg]">← ROSTER SELECT (ESC)</span>
+          <span className="skew-x-[8deg]">← ROSTER SELECT</span>
         </button>
 
-        {/* Scene Navigation Tabs */}
-        <div className="flex flex-wrap items-center gap-2">
+        {/* Horizontal Scrollable Scene Navigation Tabs */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
           {[
-            { id: 'mission', label: 'MISSION BRIEFING', icon: Flame },
-            { id: 'skillTree', label: 'SKILL TREE (CURRICULUM)', icon: BookOpen },
-            { id: 'outcomes', label: 'CLASS OUTCOMES', icon: Activity },
+            { id: 'mission', label: 'MISSION', icon: Flame },
+            { id: 'skillTree', label: 'SKILL TREE', icon: BookOpen },
+            { id: 'outcomes', label: 'OUTCOMES', icon: Activity },
             { id: 'rewards', label: 'REWARDS', icon: Award },
           ].map((tab) => {
             const Icon = tab.icon;
@@ -179,7 +179,7 @@ export const ProgramWorldScene: React.FC<ProgramWorldSceneProps> = ({ programId,
                   soundFx.playHover();
                   setActiveTab(tab.id as 'mission' | 'skillTree' | 'outcomes' | 'rewards');
                 }}
-                className={`px-4 py-1.5 font-bebas text-lg uppercase tracking-wider skew-x-[-6deg] transition-all flex items-center gap-1.5 ${
+                className={`px-3.5 sm:px-4 py-2 min-h-[44px] font-bebas text-base sm:text-lg uppercase tracking-wider skew-x-[-6deg] transition-all flex items-center gap-1.5 flex-shrink-0 ${
                   isTabActive
                     ? 'bg-[#E60012] text-black font-bold shadow-[3px_3px_0px_#FFFFFF]'
                     : 'bg-black text-gray-300 border border-white/20 hover:text-white hover:border-[#E60012]'
@@ -194,7 +194,7 @@ export const ProgramWorldScene: React.FC<ProgramWorldSceneProps> = ({ programId,
       </div>
 
       {/* Main Level Experience Grid */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full my-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center py-6">
+      <div className="relative z-10 max-w-7xl mx-auto w-full my-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center py-4 sm:py-6">
         
         {/* Left Side: Avatar */}
         <div className="lg:col-span-4 flex justify-center">
@@ -202,46 +202,46 @@ export const ProgramWorldScene: React.FC<ProgramWorldSceneProps> = ({ programId,
         </div>
 
         {/* Right Side: Tab Content */}
-        <div className="lg:col-span-8 space-y-6 text-left">
+        <div className="lg:col-span-8 space-y-4 sm:space-y-6 text-left">
           
-          <div className="flex items-center gap-3">
-            <span className="bg-[#E60012] text-black font-bebas text-2xl px-3 py-0.5 font-black skew-x-[-10deg]">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <span className="bg-[#E60012] text-black font-bebas text-xl sm:text-2xl px-3 py-0.5 font-black skew-x-[-10deg]">
               ACTIVE WORLD
             </span>
-            <span className="font-space text-xs text-[#00FF88] tracking-widest font-bold uppercase border border-[#00FF88]/40 px-3 py-1">
+            <span className="font-space text-[10px] sm:text-xs text-[#00FF88] tracking-widest font-bold uppercase border border-[#00FF88]/40 px-2.5 py-1">
               DURATION: {program.duration}
             </span>
           </div>
 
           <div>
-            <h2 className="font-bebas text-5xl sm:text-7xl font-black text-white tracking-wider uppercase leading-none">
+            <h2 className="font-bebas text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-wider uppercase leading-none">
               {program.title}
             </h2>
-            <p className="font-space text-xs text-[#00E5FF] tracking-wider uppercase font-semibold mt-1">
+            <p className="font-space text-[11px] sm:text-xs text-[#00E5FF] tracking-wider uppercase font-semibold mt-1">
               {program.subtitle}
             </p>
           </div>
 
           {/* Active Tab Scene Container */}
-          <div className="bg-[#0D0D14] border-2 border-white/20 p-6 shadow-[8px_8px_0px_#000000] min-h-[300px]">
+          <div className="bg-[#0D0D14] border-2 border-white/20 p-4 sm:p-6 shadow-[8px_8px_0px_#000000] min-h-[260px]">
             {activeTab === 'mission' && (
-              <div className="space-y-4">
-                <div className="font-bebas text-3xl text-[#E60012] uppercase">MISSION OBJECTIVE</div>
-                <p className="font-sans text-sm sm:text-base text-gray-200 leading-relaxed">
+              <div className="space-y-3 sm:space-y-4">
+                <div className="font-bebas text-2xl sm:text-3xl text-[#E60012] uppercase">MISSION OBJECTIVE</div>
+                <p className="font-sans text-xs sm:text-base text-gray-200 leading-relaxed">
                   {program.description}
                 </p>
-                <div className="bg-black p-4 border border-white/10 space-y-2 text-xs font-mono text-yellow-300">
+                <div className="bg-black p-3.5 border border-white/10 space-y-1.5 text-xs font-mono text-yellow-300">
                   <div>► <strong>FORMAT:</strong> Live Projects & Industrial Labs</div>
-                  <div>► <strong>SUPPORT:</strong> Resume Engineering + Mock Technical Interviews</div>
+                  <div>► <strong>SUPPORT:</strong> Resume Engineering + Technical Mocks</div>
                   <div>► <strong>STATUS:</strong> Admissions Open</div>
                 </div>
               </div>
             )}
 
             {activeTab === 'skillTree' && (
-              <div className="space-y-4">
-                <div className="font-bebas text-3xl text-[#00FF88] uppercase">INTERACTIVE SKILL TREE NODES</div>
-                <div className="space-y-2.5">
+              <div className="space-y-3 sm:space-y-4">
+                <div className="font-bebas text-2xl sm:text-3xl text-[#00FF88] uppercase">INTERACTIVE SKILL TREE NODES</div>
+                <div className="space-y-2">
                   {program.nodes.map((node) => {
                     const isExpanded = expandedNodeId === node.id;
 
@@ -249,17 +249,17 @@ export const ProgramWorldScene: React.FC<ProgramWorldSceneProps> = ({ programId,
                       <div key={node.id} className="bg-black border border-white/20 overflow-hidden">
                         <button
                           onClick={() => setExpandedNodeId(isExpanded ? null : node.id)}
-                          className="w-full p-3.5 flex items-center justify-between text-left hover:bg-[#12121E] transition-colors"
+                          className="w-full p-3 min-h-[48px] flex items-center justify-between text-left hover:bg-[#12121E] transition-colors"
                         >
-                          <div className="flex items-center gap-3">
-                            <span className="bg-[#00FF88] text-black font-bebas text-lg px-2.5 py-0.5 font-bold">
+                          <div className="flex items-center gap-2.5">
+                            <span className="bg-[#00FF88] text-black font-bebas text-base sm:text-lg px-2 py-0.5 font-bold">
                               NODE {node.number}
                             </span>
-                            <span className="font-bebas text-xl text-white tracking-wider uppercase">
+                            <span className="font-bebas text-lg sm:text-xl text-white tracking-wider uppercase truncate max-w-[180px] sm:max-w-none">
                               {node.title}
                             </span>
                           </div>
-                          <ChevronDown className={`w-5 h-5 text-[#00FF88] transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                          <ChevronDown className={`w-5 h-5 text-[#00FF88] flex-shrink-0 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
                         </button>
 
                         {isExpanded && (
@@ -280,11 +280,11 @@ export const ProgramWorldScene: React.FC<ProgramWorldSceneProps> = ({ programId,
             )}
 
             {activeTab === 'outcomes' && (
-              <div className="space-y-4">
-                <div className="font-bebas text-3xl text-[#00E5FF] uppercase">TARGET CLASS OUTCOMES</div>
-                <div className="flex flex-wrap gap-2.5">
+              <div className="space-y-3 sm:space-y-4">
+                <div className="font-bebas text-2xl sm:text-3xl text-[#00E5FF] uppercase">TARGET CLASS OUTCOMES</div>
+                <div className="flex flex-wrap gap-2">
                   {program.roles.map((role, idx) => (
-                    <div key={idx} className="bg-black text-white border border-[#00E5FF] px-4 py-2 font-bebas text-xl tracking-wider uppercase">
+                    <div key={idx} className="bg-black text-white border border-[#00E5FF] px-3.5 py-2 min-h-[44px] flex items-center font-bebas text-base sm:text-xl tracking-wider uppercase">
                       ✓ {role}
                     </div>
                   ))}
@@ -293,14 +293,14 @@ export const ProgramWorldScene: React.FC<ProgramWorldSceneProps> = ({ programId,
             )}
 
             {activeTab === 'rewards' && (
-              <div className="space-y-4">
-                <div className="font-bebas text-3xl text-yellow-300 uppercase">PROGRAM REWARDS & CERTIFICATION</div>
+              <div className="space-y-3 sm:space-y-4">
+                <div className="font-bebas text-2xl sm:text-3xl text-yellow-300 uppercase">PROGRAM REWARDS & CERTIFICATION</div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-space">
-                  <div className="bg-black p-4 border border-white/20 text-white space-y-1">
+                  <div className="bg-black p-3.5 border border-white/20 text-white space-y-1">
                     <div className="font-bold text-yellow-300 text-sm">ISO CERTIFIED CREDENTIALS</div>
                     <div>Recognized across leading software & tech firms.</div>
                   </div>
-                  <div className="bg-black p-4 border border-white/20 text-white space-y-1">
+                  <div className="bg-black p-3.5 border border-white/20 text-white space-y-1">
                     <div className="font-bold text-[#00FF88] text-sm">LIVE PROJECT DEPLOYMENTS</div>
                     <div>Real production code base additions to your portfolio.</div>
                   </div>
@@ -309,14 +309,14 @@ export const ProgramWorldScene: React.FC<ProgramWorldSceneProps> = ({ programId,
             )}
           </div>
 
-          {/* Action CTA */}
-          <div className="pt-2 flex flex-wrap items-center gap-4">
+          {/* Touch-First Action CTAs (Min Touch Height 52px) */}
+          <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <button
               onClick={() => {
                 soundFx.playSlash();
                 onOpenEnroll(program.title);
               }}
-              className="bg-[#E60012] text-black font-bebas text-3xl px-8 py-3.5 font-black uppercase tracking-wider hover:bg-white transition-colors skew-x-[-10deg] shadow-[6px_6px_0px_#FFFFFF]"
+              className="bg-[#E60012] text-black font-bebas text-2xl sm:text-3xl px-8 py-3.5 min-h-[52px] font-black uppercase tracking-wider hover:bg-white transition-colors skew-x-[-10deg] shadow-[6px_6px_0px_#FFFFFF] flex items-center justify-center"
             >
               <span className="skew-x-[10deg] inline-flex items-center gap-2">
                 START JOURNEY IN THIS PATH <ArrowRight className="w-6 h-6" />
@@ -325,7 +325,7 @@ export const ProgramWorldScene: React.FC<ProgramWorldSceneProps> = ({ programId,
 
             <a
               href="mailto:xenusconsultancy12@gmail.com"
-              className="bg-black text-white border-2 border-white font-bebas text-3xl px-7 py-3.5 font-bold uppercase tracking-wider hover:bg-white hover:text-black transition-colors skew-x-[-10deg] shadow-[6px_6px_0px_#00E5FF]"
+              className="bg-black text-white border-2 border-white font-bebas text-2xl sm:text-3xl px-7 py-3.5 min-h-[52px] uppercase font-bold tracking-wider hover:bg-white hover:text-black transition-colors skew-x-[-10deg] shadow-[6px_6px_0px_#00E5FF] flex items-center justify-center"
             >
               <span className="skew-x-[10deg]">CONTACT XENUS</span>
             </a>

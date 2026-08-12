@@ -29,10 +29,10 @@ export const XenusCharacter: React.FC<XenusCharacterProps> = ({
   const TrackIcon = theme.icon;
 
   const sizeDimensions = {
-    sm: 'w-48 h-64',
-    md: 'w-64 h-80',
-    lg: 'w-80 h-96',
-    hero: 'w-80 sm:w-[420px] h-[480px] sm:h-[560px]',
+    sm: 'w-36 sm:w-48 h-48 sm:h-64 max-h-[25dvh]',
+    md: 'w-48 sm:w-64 h-60 sm:h-80 max-h-[32dvh]',
+    lg: 'w-56 sm:w-80 h-72 sm:h-96 max-h-[36dvh]',
+    hero: 'w-60 sm:w-80 lg:w-[420px] h-[340px] sm:h-[480px] lg:h-[560px] max-h-[38dvh] sm:max-h-[50dvh]',
   };
 
   return (
