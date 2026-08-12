@@ -29,10 +29,6 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
       soundFx.playSelect();
     }, 1400);
 
-    const autoClose = setTimeout(() => {
-      handleEnter();
-    }, 2200);
-
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
         handleEnter();
@@ -44,7 +40,6 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);
-      clearTimeout(autoClose);
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
@@ -62,7 +57,8 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.05, y: -40 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed inset-0 z-[10000] bg-[#08080A] flex flex-col items-center justify-center p-6 select-none overflow-hidden"
+          className="fixed inset-0 z-[10000] bg-[#08080A] flex flex-col items-center justify-center p-6 select-none overflow-hidden cursor-pointer"
+          onClick={handleEnter}
         >
           {/* Persona Halftone Background Overlay */}
           <div className="absolute inset-0 bg-halftone opacity-30 pointer-events-none" />
@@ -143,7 +139,10 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
               className="mt-6 flex items-center justify-center gap-4"
             >
               <button
-                onClick={handleEnter}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleEnter();
+                }}
                 data-cursor="ENTER!"
                 className="group relative inline-flex items-center gap-3 bg-[#E60012] text-black font-bebas text-2xl tracking-wider px-8 py-3.5 font-bold uppercase transition-all duration-150 hover:bg-white hover:text-[#E60012] shadow-[6px_6px_0px_#FFFFFF] hover:shadow-[8px_8px_0px_#E60012] skew-x-[-10deg] active:translate-x-1 active:translate-y-1"
               >
@@ -153,8 +152,10 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
             </motion.div>
 
             {/* Skip Hint */}
-            <div className="mt-8 text-xs font-space text-gray-400 tracking-wider">
-              PRESS <span className="text-white border border-gray-600 px-1.5 py-0.5 rounded">ESC</span> OR CLICK TO SKIP INTRO
+            <div className="mt-8 text-xs font-space text-gray-400 tracking-wider flex items-center justify-center gap-2">
+              <span>PRESS</span>
+              <span className="text-white border border-gray-600 px-2 py-0.5 rounded font-bold">ENTER ↵</span>
+              <span>OR CLICK TO ENTER</span>
             </div>
           </div>
         </motion.div>
