@@ -5,6 +5,11 @@ class SoundSystem {
   private ctx: AudioContext | null = null;
   public enabled: boolean = true;
 
+  toggleMute(): boolean {
+    this.enabled = !this.enabled;
+    return !this.enabled;
+  }
+
   private getContext(): AudioContext | null {
     if (typeof window === 'undefined') return null;
     if (!this.ctx) {

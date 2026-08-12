@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { soundFx } from '../utils/sound';
+import { useBodyScrollLock } from '../utils/useBodyScrollLock';
 import { X, CheckCircle, Flame, Send } from 'lucide-react';
 
 interface EnrollModalProps {
@@ -21,11 +22,26 @@ export const EnrollModal: React.FC<EnrollModalProps> = ({ isOpen, onClose, initi
 
   const [submitted, setSubmitted] = useState(false);
 
+  // Lock background body scroll when open
+  useBodyScrollLock(isOpen);
+
   useEffect(() => {
     if (initialCourse) {
       setFormData((prev) => ({ ...prev, program: initialCourse }));
     }
   }, [initialCourse]);
+
+  // ESC Key listener
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -158,6 +174,7 @@ export const EnrollModal: React.FC<EnrollModalProps> = ({ isOpen, onClose, initi
                     <option value="VLSI DESIGN">VLSI Chip Design</option>
                     <option value="DIGITAL MARKETING">Digital Marketing & Growth</option>
                     <option value="ORGANIC CHEMISTRY">Organic Chemistry (30–45 Days)</option>
+                    <option value="PHARMACOVIGILANCE">Pharmacovigilance (12 Weeks Certificate)</option>
                   </select>
                 </div>
 

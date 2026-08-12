@@ -9,7 +9,7 @@ interface FinalCtaSectionProps {
 
 export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({ onOpenEnroll }) => {
   return (
-    <section className="relative py-28 px-4 sm:px-6 lg:px-8 bg-[#08080A] border-t-4 border-[#E60012] overflow-hidden text-center">
+    <section id="contact" className="relative py-28 px-4 sm:px-6 lg:px-8 bg-[#08080A] border-t-4 border-[#E60012] overflow-hidden text-center">
       {/* Halftone Dot Overlay */}
       <div className="absolute inset-0 bg-halftone opacity-35 pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#E60012]/15 rounded-full blur-[140px] pointer-events-none" />

@@ -2,22 +2,21 @@ import { useState } from 'react';
 import { CustomCursor } from './components/CustomCursor';
 import { IntroScreen } from './components/IntroScreen';
 import { Navbar } from './components/Navbar';
-import { HeroSection } from './components/HeroSection';
-import { ChooseYourPath } from './components/ChooseYourPath';
-import { FeaturedAiProgram } from './components/FeaturedAiProgram';
-import { AiSkillTree } from './components/AiSkillTree';
-import { AiLabSection } from './components/AiLabSection';
-import { MissionsSection } from './components/MissionsSection';
-import { CareerPathsSection } from './components/CareerPathsSection';
+import { MainTitleScene } from './components/MainTitleScene';
+import { ProgramSelectScene } from './components/ProgramSelectScene';
+import { ProgramWorldScene } from './components/ProgramWorldScene';
 import { WhyXenusSection } from './components/WhyXenusSection';
-import { TechArsenalSection } from './components/TechArsenalSection';
-import { OrganicChemistrySection } from './components/OrganicChemistrySection';
+import { CareerPathsSection } from './components/CareerPathsSection';
 import { FinalCtaSection } from './components/FinalCtaSection';
 import { Footer } from './components/Footer';
 import { EnrollModal } from './components/EnrollModal';
 
+export type SceneState = 'main' | 'programSelect' | 'programDetail' | 'careers' | 'about' | 'contact';
+
 export function App() {
   const [introFinished, setIntroFinished] = useState(false);
+  const [currentScene, setCurrentScene] = useState<SceneState>('main');
+  const [selectedProgramId, setSelectedProgramId] = useState<string>('01');
   const [enrollModalOpen, setEnrollModalOpen] = useState(false);
   const [selectedCourseForEnroll, setSelectedCourseForEnroll] = useState<string | undefined>(undefined);
 
@@ -26,62 +25,109 @@ export function App() {
     setEnrollModalOpen(true);
   };
 
+  const handleNavigateScene = (scene: SceneState) => {
+    setCurrentScene(scene);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleConfirmProgramSelect = (programId: string) => {
+    setSelectedProgramId(programId);
+    setCurrentScene('programDetail');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <div className="relative min-h-screen bg-[#08080A] text-[#F4F2EC] selection:bg-[#E60012] selection:text-black">
-      {/* Custom Desktop Persona Target Pointer Cursor */}
+    <div className="relative min-h-screen bg-[#08080A] text-[#F4F2EC] selection:bg-[#E60012] selection:text-black overflow-x-hidden select-none">
+      {/* Custom Pointer Target Cursor */}
       <CustomCursor />
 
-      {/* 1-2s Skippable Persona Opening Screen */}
+      {/* 1-2s Opening Screen */}
       {!introFinished && (
         <IntroScreen onComplete={() => setIntroFinished(true)} />
       )}
 
-      {/* Main Experience Layout */}
+      {/* Main Game Experience Layout */}
       <div className="flex flex-col min-h-screen">
-        {/* Navigation Bar */}
-        <Navbar onOpenEnroll={() => handleOpenEnroll()} />
+        
+        {/* Top Game HUD Header */}
+        <Navbar
+          currentScene={currentScene}
+          onNavigate={handleNavigateScene}
+          onOpenEnroll={() => handleOpenEnroll()}
+        />
 
-        {/* Main Content Sections */}
+        {/* Scene Container */}
         <main className="flex-grow">
-          {/* Hero Section */}
-          <HeroSection onOpenEnroll={() => handleOpenEnroll()} />
+          {currentScene === 'main' && (
+            <MainTitleScene
+              onNavigate={handleNavigateScene}
+              onOpenEnroll={() => handleOpenEnroll()}
+            />
+          )}
 
-          {/* Section 1: Choose Your Path (Interactive Course Selection) */}
-          <ChooseYourPath onSelectCourse={(course) => handleOpenEnroll(course)} />
+          {currentScene === 'programSelect' && (
+            <ProgramSelectScene
+              onSelectProgram={handleConfirmProgramSelect}
+              onBack={() => handleNavigateScene('main')}
+            />
+          )}
 
-          {/* Section 2: Featured Program (AI Training Mission Briefing) */}
-          <FeaturedAiProgram onOpenEnroll={() => handleOpenEnroll('AI Training (3M Train + 3M Intern)')} />
+          {currentScene === 'programDetail' && (
+            <ProgramWorldScene
+              programId={selectedProgramId}
+              onBack={() => handleNavigateScene('programSelect')}
+              onOpenEnroll={(course) => handleOpenEnroll(course)}
+            />
+          )}
 
-          {/* Section 3: The AI Path (Curriculum Skill Tree) */}
-          <AiSkillTree />
+          {currentScene === 'about' && (
+            <div className="space-y-8 py-6">
+              <WhyXenusSection />
+              <div className="text-center">
+                <button
+                  onClick={() => handleNavigateScene('main')}
+                  className="bg-[#E60012] text-black font-bebas text-2xl px-8 py-3 uppercase font-black skew-x-[-10deg] shadow-[4px_4px_0px_#FFFFFF]"
+                >
+                  <span className="skew-x-[10deg]">← RETURN TO MAIN MENU</span>
+                </button>
+              </div>
+            </div>
+          )}
 
-          {/* Section 4: Enter The AI Lab (Node Matrix) */}
-          <AiLabSection />
+          {currentScene === 'careers' && (
+            <div className="space-y-8 py-6">
+              <CareerPathsSection />
+              <div className="text-center">
+                <button
+                  onClick={() => handleNavigateScene('main')}
+                  className="bg-[#00FF88] text-black font-bebas text-2xl px-8 py-3 uppercase font-black skew-x-[-10deg] shadow-[4px_4px_0px_#000000]"
+                >
+                  <span className="skew-x-[10deg]">← RETURN TO MAIN MENU</span>
+                </button>
+              </div>
+            </div>
+          )}
 
-          {/* Section 5: Real Projects (Top-Secret Missions) */}
-          <MissionsSection />
-
-          {/* Section 6: Your Next Class (Career Paths & Roles) */}
-          <CareerPathsSection />
-
-          {/* Section 7: The Arsenal (Tech Stack Wall) */}
-          <TechArsenalSection />
-
-          {/* Section 8: Organic Chemistry (Specialized Chapter) */}
-          <OrganicChemistrySection onOpenEnroll={(course) => handleOpenEnroll(course)} />
-
-          {/* Section 9: Why Enter Xenus? (10 Collectible Cards / About) */}
-          <WhyXenusSection />
-
-          {/* Section 10: Final CTA (Stage Clear / Game Climax) */}
-          <FinalCtaSection onOpenEnroll={() => handleOpenEnroll()} />
+          {currentScene === 'contact' && (
+            <div className="space-y-8 py-6">
+              <FinalCtaSection onOpenEnroll={() => handleOpenEnroll()} />
+              <div className="text-center pb-8">
+                <button
+                  onClick={() => handleNavigateScene('main')}
+                  className="bg-black text-white border-2 border-white font-bebas text-2xl px-8 py-3 uppercase font-black skew-x-[-10deg] shadow-[4px_4px_0px_#E60012]"
+                >
+                  <span className="skew-x-[10deg]">← RETURN TO MAIN MENU</span>
+                </button>
+              </div>
+            </div>
+          )}
         </main>
 
-        {/* Minimal Black Persona Footer */}
+        {/* Minimal Black Footer */}
         <Footer onOpenEnroll={() => handleOpenEnroll()} />
       </div>
 
-      {/* Enrollment Application Modal */}
+      {/* Admissions Application Modal */}
       <EnrollModal
         isOpen={enrollModalOpen}
         onClose={() => setEnrollModalOpen(false)}

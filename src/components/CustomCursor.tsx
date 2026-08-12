@@ -8,7 +8,12 @@ export const CustomCursor: React.FC = () => {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024 || 'ontouchstart' in window);
+      const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+      const isSmallScreen = window.innerWidth < 1024;
+      const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      setIsMobile(isTouch || isCoarsePointer || isSmallScreen || isReducedMotion);
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
