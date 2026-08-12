@@ -3,18 +3,30 @@ import { soundFx } from '../utils/sound';
 import { Mail, ArrowUp } from 'lucide-react';
 
 interface FooterProps {
+  onNavigate?: (scene: 'main' | 'programSelect' | 'careers' | 'about' | 'contact') => void;
   onOpenEnroll: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenEnroll }) => {
+export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenEnroll }) => {
   const scrollToTop = () => {
     soundFx.playClick();
+    if (onNavigate) {
+      onNavigate('main');
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const navItems = [
+    { label: 'HOME / TITLE SCREEN', id: 'main' as const },
+    { label: 'PROGRAMS ROSTER', id: 'programSelect' as const },
+    { label: 'CAREER OUTCOMES', id: 'careers' as const },
+    { label: 'ABOUT XENUS', id: 'about' as const },
+    { label: 'CONTACT & ADMISSIONS', id: 'contact' as const },
+  ];
+
   return (
-    <footer className="bg-[#050507] text-white border-t-2 border-white/10 pt-16 pb-12 px-4 sm:px-6 lg:px-8 select-none text-left">
-      <div className="max-w-7xl mx-auto space-y-12">
+    <footer className="bg-[#050507] text-white border-t-2 border-[#E60012] pt-14 pb-10 px-4 sm:px-6 lg:px-8 select-none text-left">
+      <div className="max-w-7xl mx-auto space-y-10">
         
         {/* Top Footer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
@@ -37,61 +49,32 @@ export const Footer: React.FC<FooterProps> = ({ onOpenEnroll }) => {
             </p>
           </div>
 
-          {/* Quick Links Column (3 Cols) */}
+          {/* Quick Navigation Column (3 Cols) */}
           <div className="md:col-span-3 space-y-3">
             <div className="font-space text-xs text-[#00E5FF] tracking-widest uppercase font-bold border-b border-white/10 pb-2">
               // QUICK NAVIGATION
             </div>
-            <ul className="space-y-1.5 font-bebas text-lg text-gray-300 tracking-wider">
-              <li>
-                <a href="#home" onClick={() => soundFx.playClick()} className="hover:text-[#E60012] transition-colors">
-                  HOME
-                </a>
-              </li>
-              <li>
-                <a href="#programs" onClick={() => soundFx.playClick()} className="hover:text-[#E60012] transition-colors">
-                  PROGRAMS
-                </a>
-              </li>
-              <li>
-                <a href="#ai" onClick={() => soundFx.playClick()} className="hover:text-[#E60012] transition-colors">
-                  AI PATH
-                </a>
-              </li>
-              <li>
-                <a href="#lab" onClick={() => soundFx.playClick()} className="hover:text-[#E60012] transition-colors">
-                  AI LAB
-                </a>
-              </li>
-              <li>
-                <a href="#missions" onClick={() => soundFx.playClick()} className="hover:text-[#E60012] transition-colors">
-                  MISSIONS
-                </a>
-              </li>
-              <li>
-                <a href="#careers" onClick={() => soundFx.playClick()} className="hover:text-[#E60012] transition-colors">
-                  CAREERS
-                </a>
-              </li>
-              <li>
-                <a href="#arsenal" onClick={() => soundFx.playClick()} className="hover:text-[#E60012] transition-colors">
-                  ARSENAL
-                </a>
-              </li>
-              <li>
-                <a href="#chemistry" onClick={() => soundFx.playClick()} className="hover:text-[#E60012] transition-colors">
-                  ORGANIC CHEMISTRY
-                </a>
-              </li>
-              <li>
-                <a href="#about" onClick={() => soundFx.playClick()} className="hover:text-[#E60012] transition-colors">
-                  ABOUT XENUS
-                </a>
-              </li>
+            <ul className="space-y-2 font-bebas text-lg text-gray-300 tracking-wider">
+              {navItems.map((item) => (
+                <li key={item.id}>
+                  <button
+                    onClick={() => {
+                      soundFx.playClick();
+                      if (onNavigate) {
+                        onNavigate(item.id);
+                      }
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="hover:text-[#E60012] transition-colors text-left flex items-center gap-1.5"
+                  >
+                    <span>{item.label}</span>
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Contact Column (3 Cols) */}
+          {/* Direct Contact Column (3 Cols) */}
           <div className="md:col-span-3 space-y-4">
             <div className="font-space text-xs text-[#E60012] tracking-widest uppercase font-bold border-b border-white/10 pb-2">
               // DIRECT CONTACT
@@ -102,7 +85,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenEnroll }) => {
               onClick={() => soundFx.playClick()}
               className="inline-flex items-center gap-2 bg-[#121218] border border-white/20 p-3 hover:border-[#E60012] transition-colors group w-full"
             >
-              <Mail className="w-4 h-4 text-[#E60012] group-hover:scale-110 transition-transform" />
+              <Mail className="w-4 h-4 text-[#E60012] group-hover:scale-110 transition-transform flex-shrink-0" />
               <span className="font-space text-xs text-gray-200 truncate">xenusconsultancy12@gmail.com</span>
             </a>
 
@@ -120,7 +103,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenEnroll }) => {
         </div>
 
         {/* Bottom Copyright & Back To Top */}
-        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 font-space text-xs text-gray-500">
+        <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 font-space text-xs text-gray-500">
           <div>
             © 2026 Xenus Consultancy Services. All Rights Reserved.
           </div>
@@ -128,7 +111,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenEnroll }) => {
           <button
             onClick={scrollToTop}
             onMouseEnter={() => soundFx.playHover()}
-            className="flex items-center gap-1.5 text-gray-400 hover:text-white transition-colors bg-black border border-white/20 px-3 py-1"
+            className="flex items-center gap-1.5 text-gray-400 hover:text-white transition-colors bg-black border border-white/20 px-3.5 py-1.5 min-h-[40px]"
           >
             <span>BACK TO TOP</span>
             <ArrowUp className="w-3.5 h-3.5 text-[#E60012]" />
