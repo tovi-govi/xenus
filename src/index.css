@@ -1,0 +1,171 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-red: #E60012;
+    --color-red-bright: #FF1A2A;
+    --color-red-dark: #8B0000;
+    --color-bg-dark: #08080A;
+    --color-bg-panel: #0F0F14;
+    --color-white: #FFFFFF;
+    --color-offwhite: #F4F2EC;
+    --color-xenus-green: #00FF88;
+    --color-xenus-blue: #00E5FF;
+  }
+
+  body {
+    background-color: var(--color-bg-dark);
+    color: var(--color-offwhite);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+}
+
+/* Custom Typography Helpers */
+.font-bebas {
+  font-family: 'Bebas Neue', display, sans-serif;
+  letter-spacing: 0.05em;
+}
+
+.font-syne {
+  font-family: 'Syne', sans-serif;
+}
+
+.font-space {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Persona 5 Halftone & Grid Textures */
+.bg-halftone {
+  background-image: radial-gradient(#E60012 1.5px, transparent 1.5px);
+  background-size: 16px 16px;
+}
+
+.bg-halftone-dark {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1.5px, transparent 1.5px);
+  background-size: 14px 14px;
+}
+
+.bg-grid-lines {
+  background-image: 
+    linear-gradient(to right, rgba(230, 0, 18, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(230, 0, 18, 0.15) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.bg-blueprint {
+  background-color: #060e1a;
+  background-image: 
+    linear-gradient(to right, rgba(0, 229, 255, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 229, 255, 0.15) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+/* Persona Stylized Angular Masks & Shapes */
+.clip-diagonal-1 {
+  clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+}
+
+.clip-diagonal-2 {
+  clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 92%);
+}
+
+.clip-badge {
+  clip-path: polygon(0 0, 92% 0, 100% 100%, 8% 100%);
+}
+
+.clip-card {
+  clip-path: polygon(0 0, 96% 0, 100% 8%, 100% 100%, 4% 100%, 0 92%);
+}
+
+.clip-tag {
+  clip-path: polygon(0 0, 88% 0, 100% 50%, 88% 100%, 0 100%);
+}
+
+/* Persona 5 Bold Hard Drop Shadows */
+.shadow-persona {
+  box-shadow: 8px 8px 0px #E60012;
+}
+
+.shadow-persona-black {
+  box-shadow: 8px 8px 0px #000000;
+}
+
+.shadow-persona-white {
+  box-shadow: 8px 8px 0px #FFFFFF;
+}
+
+.shadow-persona-blue {
+  box-shadow: 8px 8px 0px #00E5FF;
+}
+
+.shadow-persona-hover {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.shadow-persona-hover:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 12px 12px 0px #E60012;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #08080A;
+}
+::-webkit-scrollbar-thumb {
+  background: #E60012;
+  border-radius: 0px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #FF1A2A;
+}
+
+/* Kinetic Glitch Animation Effects */
+@keyframes textGlitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+.animate-glitch {
+  animation: textGlitch 0.3s ease infinite alternate;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: 200%;
+  animation: marquee 20s linear infinite;
+}
+
+/* Stripe Pattern */
+.bg-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(230, 0, 18, 0.15),
+    rgba(230, 0, 18, 0.15) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+}
+
+/* Custom Cursor default override */
+@media (min-width: 1024px) {
+  body {
+    cursor: none;
+  }
+  a, button, input, textarea, select {
+    cursor: none !important;
+  }
+}
