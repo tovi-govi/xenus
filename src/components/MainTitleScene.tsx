@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { soundFx } from '../utils/sound';
 import { XenusCharacter } from './XenusCharacter';
-import { Flame, Sparkles, Terminal, Mail, UserCheck } from 'lucide-react';
+import { Sparkles, Terminal, Mail, UserCheck } from 'lucide-react';
 
 interface MainTitleSceneProps {
   onNavigate: (scene: 'programSelect' | 'careers' | 'about' | 'contact') => void;
   onOpenEnroll: () => void;
 }
 
-export const MainTitleScene: React.FC<MainTitleSceneProps> = ({ onNavigate, onOpenEnroll }) => {
+export const MainTitleScene: React.FC<MainTitleSceneProps> = ({ onNavigate, onOpenEnroll: _onOpenEnroll }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const menuItems = [
@@ -52,36 +52,7 @@ export const MainTitleScene: React.FC<MainTitleSceneProps> = ({ onNavigate, onOp
       {/* Red Graphic Diagonal Slashes Background */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-[#E60012]/10 skew-x-[-15deg] pointer-events-none" />
 
-      {/* Top Header: Game Logo & Mode Indicator */}
-      <div className="relative z-20 max-w-7xl mx-auto w-full flex flex-wrap items-center justify-between gap-4 border-b border-white/15 pb-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-[#E60012] text-black font-bebas text-2xl font-black flex items-center justify-center skew-x-[-12deg] shadow-[4px_4px_0px_#FFFFFF]">
-            X
-          </div>
-          <div>
-            <h1 className="font-bebas text-3xl sm:text-4xl font-black text-white tracking-widest leading-none">
-              XENUS <span className="text-[#E60012]">CONSULTANCY</span>
-            </h1>
-            <p className="font-space text-[10px] text-[#00FF88] font-bold uppercase tracking-widest">
-              3 MONTHS TRAINING + 3 MONTHS INTERNSHIP
-            </p>
-          </div>
-        </div>
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => {
-              soundFx.playSlash();
-              onOpenEnroll();
-            }}
-            className="bg-[#E60012] text-black font-bebas text-xl px-5 py-1.5 uppercase font-black tracking-wider skew-x-[-10deg] shadow-[4px_4px_0px_#FFFFFF] hover:bg-white transition-colors"
-          >
-            <span className="skew-x-[10deg] inline-flex items-center gap-1.5">
-              <Flame className="w-4 h-4 fill-black" /> ADMISSIONS OPEN
-            </span>
-          </button>
-        </div>
-      </div>
 
       {/* Center Screen: Character Presence + Stylized Vertical Game Menu */}
       <div className="relative z-10 max-w-7xl mx-auto w-full my-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center py-8">
@@ -94,7 +65,16 @@ export const MainTitleScene: React.FC<MainTitleSceneProps> = ({ onNavigate, onOp
         {/* Right Column: Game Title Screen Menu */}
         <div className="lg:col-span-6 space-y-8 text-left">
           
-          <div className="space-y-2">
+          <div className="space-y-3">
+            <div className="flex items-center gap-3">
+              <h1 className="font-bebas text-3xl sm:text-4xl font-black text-white tracking-widest leading-none">
+                XENUS <span className="text-[#E60012]">CONSULTANCY</span>
+              </h1>
+              <span className="font-space text-[10px] text-[#00FF88] border border-[#00FF88]/40 px-2.5 py-0.5 font-bold uppercase tracking-widest skew-x-[-8deg]">
+                3M TRAIN + 3M INTERN
+              </span>
+            </div>
+
             <div className="inline-flex items-center gap-2 bg-[#E60012] text-black font-space text-xs font-bold px-3 py-1 skew-x-[-10deg] shadow-[4px_4px_0px_#FFFFFF]">
               SYSTEM READY // CHOOSE ENTRY OPTION
             </div>

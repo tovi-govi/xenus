@@ -42,27 +42,25 @@ export const Navbar: React.FC<NavbarProps> = ({ currentScene, onNavigate, onOpen
       <header className="sticky top-0 z-50 bg-black/95 border-b-2 border-[#E60012] backdrop-blur-md px-4 sm:px-6 lg:px-8 py-3 select-none pt-safe">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           
-          {/* Left: Brand / HUD Indicator */}
+          {/* Left: Minimal [X] HUD Indicator */}
           <div className="flex items-center gap-3">
             <button
               onClick={() => {
                 soundFx.playClick();
                 onNavigate('main');
               }}
-              className="flex items-center gap-2 group text-left min-h-[44px]"
+              className="flex items-center gap-2.5 group text-left min-h-[44px]"
+              aria-label="Return to Title Screen"
             >
-              <div className="w-9 h-9 bg-[#E60012] text-black font-bebas text-2xl font-black flex items-center justify-center skew-x-[-10deg]">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 bg-[#E60012] text-black font-bebas text-2xl font-black flex items-center justify-center skew-x-[-10deg] shadow-[2px_2px_0px_#FFFFFF] group-hover:bg-white transition-colors">
                 X
               </div>
-              <span className="font-bebas text-2xl sm:text-3xl font-black text-white tracking-widest group-hover:text-[#E60012] transition-colors">
-                XENUS
-              </span>
-            </button>
 
-            {/* Scene HUD Badge */}
-            <div className="hidden md:inline-flex items-center gap-2 bg-[#12121A] text-[#00FF88] border border-[#00FF88]/40 px-3 py-1 font-space text-[11px] font-bold tracking-widest uppercase skew-x-[-8deg]">
-              <span>HUD // {sceneLabels[currentScene] || 'LIVE'}</span>
-            </div>
+              {/* Minimal HUD Badge */}
+              <div className="inline-flex items-center gap-2 bg-[#12121A] text-[#00FF88] border border-[#00FF88]/40 px-2.5 sm:px-3 py-1 font-space text-[10px] sm:text-[11px] font-bold tracking-widest uppercase skew-x-[-8deg]">
+                <span>HUD // {sceneLabels[currentScene] || 'LIVE'}</span>
+              </div>
+            </button>
           </div>
 
           {/* Right Action Bar */}
