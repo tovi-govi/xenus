@@ -42,7 +42,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenEnroll }) => {
             <div className="font-space text-xs text-[#00E5FF] tracking-widest uppercase font-bold border-b border-white/10 pb-2">
               // QUICK NAVIGATION
             </div>
-            <ul className="space-y-2 font-bebas text-xl text-gray-300 tracking-wider">
+            <ul className="space-y-1.5 font-bebas text-lg text-gray-300 tracking-wider">
               <li>
                 <a href="#home" onClick={() => soundFx.playClick()} className="hover:text-[#E60012] transition-colors">
                   HOME
@@ -56,6 +56,26 @@ export const Footer: React.FC<FooterProps> = ({ onOpenEnroll }) => {
               <li>
                 <a href="#ai" onClick={() => soundFx.playClick()} className="hover:text-[#E60012] transition-colors">
                   AI PATH
+                </a>
+              </li>
+              <li>
+                <a href="#lab" onClick={() => soundFx.playClick()} className="hover:text-[#E60012] transition-colors">
+                  AI LAB
+                </a>
+              </li>
+              <li>
+                <a href="#missions" onClick={() => soundFx.playClick()} className="hover:text-[#E60012] transition-colors">
+                  MISSIONS
+                </a>
+              </li>
+              <li>
+                <a href="#careers" onClick={() => soundFx.playClick()} className="hover:text-[#E60012] transition-colors">
+                  CAREERS
+                </a>
+              </li>
+              <li>
+                <a href="#arsenal" onClick={() => soundFx.playClick()} className="hover:text-[#E60012] transition-colors">
+                  ARSENAL
                 </a>
               </li>
               <li>

@@ -81,7 +81,7 @@ export const MissionsSection: React.FC = () => {
   ];
 
   return (
-    <section className="relative py-24 px-4 sm:px-6 lg:px-8 bg-[#09090C] overflow-hidden border-b-4 border-[#E60012]">
+    <section id="missions" className="relative py-24 px-4 sm:px-6 lg:px-8 bg-[#09090C] overflow-hidden border-b-4 border-[#E60012]">
       <div className="absolute inset-0 bg-halftone opacity-20 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">

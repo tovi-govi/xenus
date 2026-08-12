@@ -75,7 +75,7 @@ export const AiLabSection: React.FC = () => {
   const active = nodes.find((n) => n.id === selectedNode) || nodes[4];
 
   return (
-    <section className="relative py-24 px-4 sm:px-6 lg:px-8 bg-[#060608] text-white border-y-4 border-[#E60012] overflow-hidden">
+    <section id="lab" className="relative py-24 px-4 sm:px-6 lg:px-8 bg-[#060608] text-white border-y-4 border-[#E60012] overflow-hidden">
       {/* Background Radial Glow */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-950/40 via-black to-black pointer-events-none" />
       <div className="absolute inset-0 bg-halftone opacity-25 pointer-events-none" />

@@ -64,14 +64,14 @@ export function App() {
           {/* Section 6: Your Next Class (Career Paths & Roles) */}
           <CareerPathsSection />
 
-          {/* Section 7: Why Enter Xenus? (10 Collectible Cards) */}
-          <WhyXenusSection />
-
-          {/* Section 8: The Arsenal (Tech Stack Wall) */}
+          {/* Section 7: The Arsenal (Tech Stack Wall) */}
           <TechArsenalSection />
 
-          {/* Section 9: Organic Chemistry (Specialized Chapter) */}
+          {/* Section 8: Organic Chemistry (Specialized Chapter) */}
           <OrganicChemistrySection onOpenEnroll={(course) => handleOpenEnroll(course)} />
+
+          {/* Section 9: Why Enter Xenus? (10 Collectible Cards / About) */}
+          <WhyXenusSection />
 
           {/* Section 10: Final CTA (Stage Clear / Game Climax) */}
           <FinalCtaSection onOpenEnroll={() => handleOpenEnroll()} />

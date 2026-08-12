@@ -9,7 +9,7 @@ interface FeaturedAiProgramProps {
 
 export const FeaturedAiProgram: React.FC<FeaturedAiProgramProps> = ({ onOpenEnroll }) => {
   return (
-    <section className="relative py-24 px-4 sm:px-6 lg:px-8 bg-[#08080A] overflow-hidden">
+    <section id="flagship" className="relative py-24 px-4 sm:px-6 lg:px-8 bg-[#08080A] overflow-hidden">
       {/* Halftone texture */}
       <div className="absolute inset-0 bg-halftone opacity-30 pointer-events-none" />
       <div className="absolute -left-20 top-1/2 w-[120%] h-64 bg-[#E60012] rotate-[-5deg] opacity-15 pointer-events-none" />

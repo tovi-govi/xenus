@@ -17,6 +17,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenEnroll }) => {
     { name: 'HOME', href: '#home', id: 'home' },
     { name: 'PROGRAMS', href: '#programs', id: 'programs' },
     { name: 'AI PATH', href: '#ai', id: 'ai' },
+    { name: 'AI LAB', href: '#lab', id: 'lab' },
+    { name: 'MISSIONS', href: '#missions', id: 'missions' },
+    { name: 'CAREERS', href: '#careers', id: 'careers' },
+    { name: 'ARSENAL', href: '#arsenal', id: 'arsenal' },
     { name: 'CHEMISTRY', href: '#chemistry', id: 'chemistry' },
     { name: 'ABOUT', href: '#about', id: 'about' },
   ];
@@ -25,8 +29,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenEnroll }) => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 40);
 
-      // Section scroll tracking
-      const sections = ['home', 'programs', 'ai', 'chemistry', 'about'];
+      // Section scroll tracking matching exact page order
+      const sections = ['home', 'programs', 'ai', 'lab', 'missions', 'careers', 'arsenal', 'chemistry', 'about'];
       const scrollPosition = window.scrollY + 200;
 
       for (const section of sections) {
@@ -90,8 +94,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenEnroll }) => {
             </div>
           </a>
 
-          {/* Desktop Nav Items */}
-          <nav className="hidden lg:flex items-center gap-1 bg-black/70 border border-white/10 p-1.5 rounded-none skew-x-[-8deg] shadow-[4px_4px_0px_rgba(230,0,18,0.3)]">
+          {/* Desktop Nav Items - Ordered & Sleek */}
+          <nav className="hidden lg:flex items-center gap-0.5 bg-black/80 border border-white/10 p-1 rounded-none skew-x-[-8deg] shadow-[4px_4px_0px_rgba(230,0,18,0.3)]">
             {navLinks.map((link) => {
               const isActive = activeSection === link.id;
               return (
@@ -104,14 +108,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenEnroll }) => {
                   }}
                   onMouseEnter={() => soundFx.playHover()}
                   data-cursor={link.name}
-                  className={`relative px-4 py-1.5 font-bebas text-lg tracking-wider transition-all duration-150 ${
+                  className={`relative px-2 py-1 font-bebas text-xs xl:text-sm tracking-wider transition-all duration-150 ${
                     isActive
                       ? 'text-black bg-[#E60012] font-black shadow-[2px_2px_0px_#FFFFFF]'
                       : 'text-gray-300 hover:text-white hover:bg-white/10'
                   }`}
                 >
-                  <span className="skew-x-[8deg] inline-block flex items-center gap-1.5">
-                    {isActive && <Flame className="w-3.5 h-3.5 fill-black" />}
+                  <span className="skew-x-[8deg] inline-flex items-center gap-1">
+                    {isActive && <Flame className="w-3 h-3 fill-black" />}
                     {link.name}
                   </span>
                 </a>
