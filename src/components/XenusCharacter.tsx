@@ -8,7 +8,7 @@ interface XenusCharacterProps {
   className?: string;
 }
 
-export const XenusCharacter: React.FC<XenusCharacterProps> = ({
+export const XenusCharacter: React.FC<XenusCharacterProps> = React.memo(({
   trackId = '01',
   size = 'hero',
   className = '',
@@ -53,10 +53,10 @@ export const XenusCharacter: React.FC<XenusCharacterProps> = ({
         className="absolute inset-4 rounded-full border border-[#E60012]/30 pointer-events-none"
       />
 
-      {/* Ambient Radial Glow */}
+      {/* Ambient Radial Glow (Lightweight CSS Gradient) */}
       <div 
-        className="absolute w-72 h-72 rounded-full blur-[100px] opacity-30 pointer-events-none"
-        style={{ backgroundColor: theme.primary }}
+        className="absolute w-72 h-72 rounded-full opacity-40 pointer-events-none"
+        style={{ background: `radial-gradient(circle, ${theme.primary}60 0%, transparent 70%)` }}
       />
 
       {/* Floating Holographic Badge Top Left */}
@@ -133,4 +133,4 @@ export const XenusCharacter: React.FC<XenusCharacterProps> = ({
       <div className="absolute -bottom-6 w-3/4 h-8 bg-black/80 rounded-[100%] blur-md border-t border-white/20 pointer-events-none" />
     </div>
   );
-};
+});

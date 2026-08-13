@@ -7,11 +7,23 @@ interface NavbarProps {
   currentScene: 'main' | 'programSelect' | 'programDetail' | 'careers' | 'about' | 'contact';
   onNavigate: (scene: 'main' | 'programSelect' | 'careers' | 'about' | 'contact') => void;
   onOpenEnroll: () => void;
+  onLogoClickSecret?: () => void;
+  isWorldMapMode?: boolean;
+  onToggleWorldMap?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ currentScene, onNavigate, onOpenEnroll }) => {
+export const Navbar: React.FC<NavbarProps> = React.memo(({ 
+  currentScene, 
+  onNavigate, 
+  onOpenEnroll,
+  onLogoClickSecret,
+  isWorldMapMode,
+  onToggleWorldMap
+}) => {
   const [soundOn, setSoundOn] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
+  const lastClickTime = React.useRef<number>(0);
 
   useBodyScrollLock(mobileMenuOpen);
 
@@ -20,13 +32,32 @@ export const Navbar: React.FC<NavbarProps> = ({ currentScene, onNavigate, onOpen
     setSoundOn(!isMuted);
   };
 
+  const handleLogoClick = () => {
+    const now = Date.now();
+    soundFx.playClick();
+    onNavigate('main');
+
+    if (now - lastClickTime.current < 800) {
+      const newCount = clickCount + 1;
+      setClickCount(newCount);
+      if (newCount >= 4) {
+        soundFx.playGlitch();
+        setClickCount(0);
+        if (onLogoClickSecret) onLogoClickSecret();
+      }
+    } else {
+      setClickCount(1);
+    }
+    lastClickTime.current = now;
+  };
+
   const sceneLabels: Record<string, string> = {
-    main: 'MAIN TITLE SCREEN',
-    programSelect: 'CHARACTER ROSTER SELECT',
-    programDetail: 'ACTIVE PROGRAM WORLD',
-    careers: 'CAREER CLASS OUTCOMES',
-    about: 'WHY XENUS ADVANTAGE',
-    contact: 'DIRECT CONTACT & ADMISSIONS',
+    main: isWorldMapMode ? 'INTERACTIVE MAP' : 'HOME MENU',
+    programSelect: 'OUR COURSES & TRACKS',
+    programDetail: 'COURSE DETAILS',
+    careers: 'CAREERS & OUTCOMES',
+    about: 'ABOUT XENUS',
+    contact: 'CONTACT & ADMISSIONS',
   };
 
   const menuItems = [
@@ -45,10 +76,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentScene, onNavigate, onOpen
           {/* Left: Minimal [X] HUD Indicator */}
           <div className="flex items-center gap-3">
             <button
-              onClick={() => {
-                soundFx.playClick();
-                onNavigate('main');
-              }}
+              onClick={handleLogoClick}
+              data-cursor="XENUS HQ"
               className="flex items-center gap-2.5 group text-left min-h-[44px]"
               aria-label="Return to Title Screen"
             >
@@ -65,6 +94,22 @@ export const Navbar: React.FC<NavbarProps> = ({ currentScene, onNavigate, onOpen
 
           {/* Right Action Bar */}
           <div className="flex items-center gap-2.5">
+            {/* World Map Toggle Button if on main scene */}
+            {currentScene === 'main' && onToggleWorldMap && (
+              <button
+                onClick={() => {
+                  soundFx.playSelect();
+                  onToggleWorldMap();
+                }}
+                data-cursor={isWorldMapMode ? 'MENU MODE' : 'WORLD MAP'}
+                className="bg-black text-[#00E5FF] border border-[#00E5FF]/50 hover:border-[#00FF88] hover:text-[#00FF88] px-3 py-2 min-h-[44px] font-bebas text-base sm:text-lg uppercase tracking-wider skew-x-[-8deg] flex items-center gap-1.5 transition-all shadow-[2px_2px_0px_#00E5FF]"
+              >
+                <span className="skew-x-[8deg]">
+                  {isWorldMapMode ? '📋 MENU VIEW' : '🌐 WORLD MAP'}
+                </span>
+              </button>
+            )}
+
             {/* Back Button if not on main title screen */}
             {currentScene !== 'main' && (
               <button
@@ -169,4 +214,4 @@ export const Navbar: React.FC<NavbarProps> = ({ currentScene, onNavigate, onOpen
       )}
     </>
   );
-};
+});

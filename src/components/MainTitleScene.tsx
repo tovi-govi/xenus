@@ -3,13 +3,22 @@ import { motion } from 'framer-motion';
 import { soundFx } from '../utils/sound';
 import { XenusCharacter } from './XenusCharacter';
 import { Sparkles, Terminal, Mail, UserCheck } from 'lucide-react';
+import { XenusWorldMap } from './XenusWorldMap';
+import type { SceneState } from '../App';
 
 interface MainTitleSceneProps {
-  onNavigate: (scene: 'programSelect' | 'careers' | 'about' | 'contact') => void;
+  onNavigate: (scene: SceneState) => void;
   onOpenEnroll: () => void;
+  isWorldMapMode?: boolean;
+  onDiscoverSecret: (secretId: string, title: string, message: string) => void;
 }
 
-export const MainTitleScene: React.FC<MainTitleSceneProps> = ({ onNavigate, onOpenEnroll: _onOpenEnroll }) => {
+export const MainTitleScene: React.FC<MainTitleSceneProps> = React.memo(({ 
+  onNavigate, 
+  onOpenEnroll: _onOpenEnroll,
+  isWorldMapMode = true,
+  onDiscoverSecret
+}) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const menuItems = [
@@ -19,8 +28,10 @@ export const MainTitleScene: React.FC<MainTitleSceneProps> = ({ onNavigate, onOp
     { id: 'contact', label: 'CONTACT', desc: 'DIRECT INQUIRIES & ADMISSIONS', icon: Mail },
   ];
 
-  // Keyboard navigation (Up / Down / Enter)
+  // Keyboard navigation (Up / Down / Enter) for classic vertical menu mode
   useEffect(() => {
+    if (isWorldMapMode) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowUp') {
         e.preventDefault();
@@ -40,7 +51,16 @@ export const MainTitleScene: React.FC<MainTitleSceneProps> = ({ onNavigate, onOp
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedIndex, onNavigate]);
+  }, [selectedIndex, onNavigate, isWorldMapMode]);
+
+  if (isWorldMapMode) {
+    return (
+      <XenusWorldMap
+        onNavigate={onNavigate}
+        onDiscoverSecret={onDiscoverSecret}
+      />
+    );
+  }
 
   return (
     <div className="relative min-h-[90vh] flex flex-col justify-between py-12 px-4 sm:px-6 lg:px-8 bg-[#08080A] text-white overflow-hidden select-none">
@@ -165,4 +185,4 @@ export const MainTitleScene: React.FC<MainTitleSceneProps> = ({ onNavigate, onOp
 
     </div>
   );
-};
+});

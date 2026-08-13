@@ -17,20 +17,22 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
     const t1 = setTimeout(() => {
       setStep(1);
       soundFx.playHover();
-    }, 400);
+    }, 150);
 
     const t2 = setTimeout(() => {
       setStep(2);
       soundFx.playHover();
-    }, 900);
+    }, 350);
 
     const t3 = setTimeout(() => {
       setStep(3);
       soundFx.playSelect();
-    }, 1400);
+    }, 550);
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        e.stopPropagation();
         handleEnter();
       }
     };
@@ -47,7 +49,7 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
   const handleEnter = () => {
     soundFx.playSlash();
     setIsVisible(false);
-    setTimeout(onComplete, 500);
+    setTimeout(onComplete, 200);
   };
 
   return (
@@ -55,8 +57,8 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
       {isVisible && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.05, y: -40 }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          exit={{ opacity: 0, scale: 1.02, y: -20 }}
+          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="fixed inset-0 z-[10000] bg-[#08080A] flex flex-col items-center justify-center p-6 select-none overflow-hidden cursor-pointer"
           onClick={handleEnter}
         >

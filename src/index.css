@@ -57,11 +57,6 @@
   background-size: 16px 16px;
 }
 
-.bg-halftone-dark {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1.5px, transparent 1.5px);
-  background-size: 14px 14px;
-}
-
 .bg-grid-lines {
   background-image: 
     linear-gradient(to right, rgba(230, 0, 18, 0.15) 1px, transparent 1px),
@@ -77,51 +72,9 @@
   background-size: 30px 30px;
 }
 
-/* Persona Stylized Angular Masks & Shapes */
-.clip-diagonal-1 {
-  clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
-}
-
-.clip-diagonal-2 {
-  clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 92%);
-}
-
-.clip-badge {
-  clip-path: polygon(0 0, 92% 0, 100% 100%, 8% 100%);
-}
-
+/* Persona Stylized Angular Shapes */
 .clip-card {
   clip-path: polygon(0 0, 96% 0, 100% 8%, 100% 100%, 4% 100%, 0 92%);
-}
-
-.clip-tag {
-  clip-path: polygon(0 0, 88% 0, 100% 50%, 88% 100%, 0 100%);
-}
-
-/* Persona 5 Bold Hard Drop Shadows */
-.shadow-persona {
-  box-shadow: 8px 8px 0px #E60012;
-}
-
-.shadow-persona-black {
-  box-shadow: 8px 8px 0px #000000;
-}
-
-.shadow-persona-white {
-  box-shadow: 8px 8px 0px #FFFFFF;
-}
-
-.shadow-persona-blue {
-  box-shadow: 8px 8px 0px #00E5FF;
-}
-
-.shadow-persona-hover {
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.shadow-persona-hover:hover {
-  transform: translate(-4px, -4px);
-  box-shadow: 12px 12px 0px #E60012;
 }
 
 /* Custom Scrollbar */
@@ -139,29 +92,14 @@
   background: #FF1A2A;
 }
 
-/* Kinetic Glitch Animation Effects */
-@keyframes textGlitch {
-  0% { transform: translate(0); }
-  20% { transform: translate(-2px, 2px); }
-  40% { transform: translate(-2px, -2px); }
-  60% { transform: translate(2px, 2px); }
-  80% { transform: translate(2px, -2px); }
-  100% { transform: translate(0); }
+/* Animated Holographic Vector Line Energy Flow */
+@keyframes lineDash {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -28; }
 }
 
-.animate-glitch {
-  animation: textGlitch 0.3s ease infinite alternate;
-}
-
-@keyframes marquee {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
-}
-
-.animate-marquee {
-  display: flex;
-  width: 200%;
-  animation: marquee 20s linear infinite;
+.animate-line-dash {
+  animation: lineDash 1.8s linear infinite;
 }
 
 /* Stripe Pattern */
